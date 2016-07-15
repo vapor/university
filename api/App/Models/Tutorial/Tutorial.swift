@@ -4,6 +4,7 @@ import Fluent
 final class Tutorial: Vapor.Model {
     var id: Value?
     var name: String
+    var author: String
     var medium: Medium
     var image: String
     var url: String
@@ -14,6 +15,7 @@ final class Tutorial: Vapor.Model {
     init(serialized: [String: Value]) { // FIXME: init(Value)
         id = serialized["id"]
         name = serialized["name"].string ?? ""
+        author = serialized["author"].string ?? ""
         medium = try! Medium(serialized["medium"]!)
         image = serialized["image"].string ?? "sample-tile.png"
         url = serialized["url"].string ?? ""
@@ -30,6 +32,7 @@ extension Tutorial {
         return [
             "id": id,
             "name": name,
+            "author": author,
             "medium": try! medium.value(), // FIXME: not throwing
             "image": image,
             "url": url,
