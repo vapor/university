@@ -30,7 +30,7 @@ do {
 drop.get("/") { request in
     let medium = request.data["medium"].string ?? "video"
 
-    let tutorials = try Tutorial.all().map { tutorial in
+    let tutorials = try Tutorial.filter("medium", medium).all().map { tutorial in
         return tutorial.serialize()
     }
 

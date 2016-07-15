@@ -39,5 +39,68 @@ body {
         .tutorials .header .toggle li a.active {
           opacity: 1;
           background: #92A8D1; }
+.tutorials .list {
+  width: 80%;
+  max-width: 792px;
+  margin: 0 auto;
+  padding: 0;
+  margin-top: 48px; }
+  .tutorials .list li {
+    list-style: none; }
+    .tutorials .list li:last-child .tutorial {
+      border-bottom: none; }
+  .tutorials .list .tutorial {
+    position: relative;
+    min-height: 144px;
+    display: block;
+    padding-bottom: 24px;
+    margin-top: 24px;
+    border-bottom: 1px dotted #aaa;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333; }
+    .tutorials .list .tutorial::after {
+      content: "";
+      background: url(/images/play-button.png);
+      background-size: 72px;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 240px;
+      height: 144px;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      position: absolute; }
+    .tutorials .list .tutorial .preview {
+      width: 240px;
+      height: 144px;
+      position: absolute;
+      left: 0;
+      opacity: 0.5;
+      transition: opacity 0.25s;
+      z-index: 5; }
+    .tutorials .list .tutorial:hover .preview {
+      opacity: 0.75; }
+    .tutorials .list .tutorial .content {
+      padding-left: 264px; }
+      .tutorials .list .tutorial .content h2 {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 400;
+        font-size: 24px;
+        margin: 0;
+        padding: 0; }
+      .tutorials .list .tutorial .content p {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        margin-top: 6px;
+        line-height: 24px;
+        color: #777; }
+
+footer p {
+  text-align: center;
+  margin-top: 0;
+  font-size: 12px;
+  color: #777; }
 
 /*# sourceMappingURL=app.css.map */

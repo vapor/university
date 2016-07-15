@@ -17,7 +17,13 @@
 	<ul class="list">
 		{{#tutorials}}
 			<li>
-			  <b>{{name}}</b>
+				<a target="_blank" class="tutorial" href="{{url}}">
+					<img src="/images/previews/{{image}}" alt="" class="preview">
+					<div class="content">
+						<h2>{{name}}</h2>
+						<p>{{description}}</p>
+					</div>
+				</a>
 			</li>
 		{{/tutorials}}
 	</ul>

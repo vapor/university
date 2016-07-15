@@ -10,6 +10,7 @@ final class Tutorial: Model {
     var id: Value?
     var name: String
     var medium: Medium
+    var image: String
     var url: String
     var description: String
     var duration: Int
@@ -19,6 +20,7 @@ final class Tutorial: Model {
         id = serialized["id"]
         name = serialized["name"].string ?? ""
         medium = try! Medium(serialized["medium"]!)
+        image = serialized["image"].string ?? "sample-tile.png"
         url = serialized["url"].string ?? ""
         description = serialized["description"].string ?? ""
         duration = serialized["duration"].int ?? 0
@@ -30,6 +32,7 @@ final class Tutorial: Model {
             "id": id,
             "name": name,
             "medium": try! medium.value(), // FIXME: not throwing
+            "image": image,
             "url": url,
             "description": description,
             "duration": duration,
@@ -42,6 +45,7 @@ final class Tutorial: Model {
             tutorials.id()
             tutorials.string("name")
             tutorials.string("medium") // FIXME: enum support
+            tutorials.string("image")
             tutorials.string("url")
             tutorials.string("description")
             tutorials.int("duration") // FIXME: TEXT support
