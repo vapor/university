@@ -30,8 +30,14 @@ do {
 drop.get("/") { request in
     let medium = request.data["medium"].string ?? "video"
 
-    let tutorials = try Tutorial.filter("medium", medium).all().map { tutorial in
-        return tutorial.serialize()
+    let tutorials: [[String: String]] = try Tutorial.filter("medium", medium).all().map { tutorial in
+        var serialized: [String: String] = [:]
+
+        for (key, val) in tutorial.serialize() {
+            serialized[key] = val.string ?? ""
+        }
+
+        return serialized
     }
 
     return try drop.view("Tutorials/index.mustache", context: [

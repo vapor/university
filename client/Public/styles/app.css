@@ -59,7 +59,7 @@ body {
     cursor: pointer;
     text-decoration: none;
     color: #333; }
-    .tutorials .list .tutorial::after {
+    .tutorials .list .tutorial.playable::after {
       content: "";
       background: url(/images/play-button.png);
       background-size: 72px;
@@ -72,7 +72,7 @@ body {
       width: 100%;
       height: 144px; }
       @media screen and (min-width: 768px) {
-        .tutorials .list .tutorial::after {
+        .tutorials .list .tutorial.playable::after {
           width: 240px;
           height: 144px; } }
     .tutorials .list .tutorial .preview {
