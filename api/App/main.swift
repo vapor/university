@@ -1,6 +1,7 @@
 import Vapor
 import VaporMySQL
 
+// FIXME: Create ConfigInitializable Providers that can do this automatically
 let _d = Droplet()
 let config = _d.config
 
@@ -20,23 +21,15 @@ let mysql = try VaporMySQL.Provider(
     database: database
 )
 
-let drop = Droplet(providers: [mysql], preparations: [Tutorial.self])
+// FIXME: Naming issue
+typealias Value = FluentValue
 
+let drop = Droplet(providers: [mysql], preparations: [Tutorial.self])
 
 let tutorials = Tutorials()
 drop.resource("tutorials", tutorials)
 
-class NotFoundMiddleware: Middleware {
-    func respond(to request: Request, chainingTo next: Responder) throws -> Response {
-        do {
-            return try next.respond(to: request)
-        } catch Abort.notFound {
-            throw Abort.custom(status: .notFound, message: "Resource not found.")
-        }
-    }
-}
-
-drop.globalMiddleware.append(NotFoundMiddleware())
+drop.globalMiddleware.append(NotFound())
 drop.globalMiddleware.append(Tutorial.Medium.Validator.Middleware()) // FIXME: drop.middleware
 
 drop.serve()

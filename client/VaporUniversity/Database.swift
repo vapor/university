@@ -1,6 +1,10 @@
 import Vapor
 import Fluent
 
+/**
+    Database that uses a RESTful driver pointing to the 
+    VaporUniversity API.
+*/
 public final class VaporUniversityDatabase: Database {
     public enum Error: ErrorProtocol {
         case noConfiguredURL

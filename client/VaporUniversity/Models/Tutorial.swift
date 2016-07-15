@@ -17,7 +17,11 @@ public final class Tutorial: Vapor.Model {
         image = serialized["image"].string ?? ""
         url = serialized["url"].string ?? ""
     }
+}
 
+//MARK: Fluent serializations
+
+extension Tutorial {
     public func serialize() -> [String: Fluent.Value?] {
         var serialized: [String: Fluent.Value?] = [
             "id": id,

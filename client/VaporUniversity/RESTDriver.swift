@@ -1,6 +1,9 @@
 import Vapor
 import Fluent
 
+/**
+    Converts a Fluent Query into a RESTful request.
+*/
 public class RESTDriver: DatabaseDriver {
     public let idKey = "id"
     public let url: String

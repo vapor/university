@@ -2,6 +2,7 @@ import Vapor
 import VaporMustache
 import VaporUniversity
 
+// MARK: Create droplet
 let mustache = VaporMustache.Provider(withIncludes: [
     "header": "Includes/header.mustache",
     "footer": "Includes/footer.mustache",
@@ -9,23 +10,12 @@ let mustache = VaporMustache.Provider(withIncludes: [
 
 let drop = Droplet(providers: [mustache])
 
-let database: Database
-do {
-    database = try VaporUniversityDatabase(drop: drop)
-} catch {
-    fatalError("Could not initialize Vapor University Database: \(error)")
-}
+// MARK: Create DB
 
+let database = try VaporUniversityDatabase(drop: drop)
 Tutorial.database = database
 
-do {
-    if let tutorial = try Tutorial.find(1) {
-        print(tutorial.name)
-    }
-} catch {
-    drop.log.error("Error: \(error)")
-}
-
+// MARK: Routes
 
 drop.get("/") { request in
     let medium = request.data["medium"].string ?? "video"
