@@ -1,0 +1,26 @@
+{{>header}}
+
+<div class="tutorials">
+	<div class="header">
+		<img src="/images/vapor-university-logo.png" alt="Vapor University" class="logo">
+		<h1><strong>vapor</strong>.university</h1>
+
+		<ul class="toggle">
+			{{#mediums}}
+			<li>
+				<a class="{{class}}" href="?medium={{url}}">{{text}}</a>
+			</li>
+			{{/mediums}}
+		</ul>
+	</div>
+
+	<ul class="list">
+		{{#tutorials}}
+			<li>
+			  <b>{{name}}</b>
+			</li>
+		{{/tutorials}}
+	</ul>
+</div>
+
+{{>footer}}

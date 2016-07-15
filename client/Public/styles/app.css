@@ -1,0 +1,43 @@
+body {
+  font-family: -apple-system, sans-serif;
+  color: #333; }
+
+.tutorials .header {
+  margin-top: 48px;
+  text-align: center; }
+  .tutorials .header .logo {
+    height: 119px; }
+  .tutorials .header h1 {
+    margin: 0;
+    padding: 0;
+    margin-top: 24px;
+    font-weight: 400;
+    font-family: "Quicksand", sans-serif; }
+  .tutorials .header .toggle {
+    margin: 0 auto;
+    padding: 0;
+    margin-top: 24px;
+    width: 240px;
+    height: 48px;
+    border: 2px solid #92A8D1;
+    border-radius: 7px; }
+    .tutorials .header .toggle li {
+      text-align: center;
+      list-style: none;
+      width: 50%;
+      float: left;
+      font-size: 36px;
+      line-height: 48px; }
+      .tutorials .header .toggle li a {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        opacity: 0.5;
+        transition: opacity 0.25s; }
+        .tutorials .header .toggle li a:hover {
+          opacity: 1; }
+        .tutorials .header .toggle li a.active {
+          opacity: 1;
+          background: #92A8D1; }
+
+/*# sourceMappingURL=app.css.map */
