@@ -25,7 +25,7 @@ extension Tutorial {
         func value() throws -> Value {
             switch self {
             case .easy:
-                return "article"
+                return "easy"
             case .intermediate:
                 return "intermediate"
             case .advanced:

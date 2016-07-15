@@ -57,7 +57,17 @@ public class RESTDriver: DatabaseDriver {
             switch value {
             case .string(let string):
                 parsed[key] = string
+            case .number(let number):
+                switch number {
+                case .integer(let int):
+                    parsed[key] = int
+                case .double(let double):
+                    parsed[key] = double
+                case .unsignedInteger(let uint):
+                    parsed[key] = Int(uint)
+                }
             default:
+                drop.console.warning("Didn't parse value: \(key): \(value)")
                 break
             }
         }
