@@ -65,37 +65,48 @@ body {
       background-size: 72px;
       background-repeat: no-repeat;
       background-position: center;
-      width: 240px;
-      height: 144px;
       top: 0;
       left: 0;
       z-index: 10;
-      position: absolute; }
-    .tutorials .list .tutorial .preview {
-      width: 240px;
-      height: 144px;
       position: absolute;
-      left: 0;
+      width: 100%;
+      height: 144px; }
+      @media screen and (min-width: 768px) {
+        .tutorials .list .tutorial::after {
+          width: 240px;
+          height: 144px; } }
+    .tutorials .list .tutorial .preview {
       opacity: 0.5;
       transition: opacity 0.25s;
-      z-index: 5; }
+      z-index: 5;
+      width: 100%;
+      width: 240px;
+      height: 144px;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 12px; }
+      @media screen and (min-width: 768px) {
+        .tutorials .list .tutorial .preview {
+          position: absolute;
+          left: 0; } }
     .tutorials .list .tutorial:hover .preview {
       opacity: 0.75; }
-    .tutorials .list .tutorial .content {
-      padding-left: 264px; }
-      .tutorials .list .tutorial .content h2 {
-        font-family: "Quicksand", sans-serif;
-        font-weight: 400;
-        font-size: 24px;
-        margin: 0;
-        padding: 0; }
-      .tutorials .list .tutorial .content p {
-        font-size: 14px;
-        margin: 0;
-        padding: 0;
-        margin-top: 6px;
-        line-height: 24px;
-        color: #777; }
+    @media screen and (min-width: 768px) {
+      .tutorials .list .tutorial .content {
+        padding-left: 264px; } }
+    .tutorials .list .tutorial .content h2 {
+      font-family: "Quicksand", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      margin: 0;
+      padding: 0; }
+    .tutorials .list .tutorial .content p {
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+      margin-top: 6px;
+      line-height: 24px;
+      color: #777; }
 
 footer p {
   text-align: center;
