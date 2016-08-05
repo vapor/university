@@ -1,8 +1,8 @@
 import Vapor
 import Fluent
 
-public final class Tutorial: Vapor.Model {
-    public var id: Value?
+public final class Tutorial: Model {
+    public var id: Node?
     public var name: String
     public var author: String
     public var medium: String
@@ -12,24 +12,32 @@ public final class Tutorial: Vapor.Model {
     public var difficulty: String
     public var duration: Int
 
-    public init(serialized: [String: Fluent.Value]) {
-        id = serialized["id"]
-        name = serialized["name"].string ?? ""
-        author = serialized["author"].string ?? "Anonymous"
-        medium = serialized["medium"].string ?? ""
-        description = serialized["description"].string ?? ""
-        image = serialized["image"].string ?? ""
-        url = serialized["url"].string ?? ""
-        difficulty = serialized["difficulty"].string?.uppercaseFirst() ?? ""
-        duration = serialized["duration"].int ?? 0
+    public init(node: Node, in context: Context) throws {
+        id = try node.extract("id")
+        name = try node.extract("name")
+        author = try node.extract("author")
+        medium = try node.extract("medium")
+        description = try node.extract("description")
+        image = try node.extract("image")
+        url = try node.extract("url")
+        difficulty = (try node.extract("difficulty") as String).uppercaseFirst()
+        duration = try node.extract("duration")
+    }
+
+    public static func prepare(_ database: Database) throws {
+        // not needed for RESTdriver
+    }
+
+    public static func revert(_ database: Database) throws {
+        // not needed for RESTdriver
     }
 }
 
 //MARK: Fluent serializations
 
 extension Tutorial {
-    public func serialize() -> [String: Fluent.Value?] {
-        var serialized: [String: Fluent.Value?] = [
+    public func makeNode() throws -> Node {
+        return try Node(node: [
             "id": id,
             "name": name,
             "author": author,
@@ -38,13 +46,8 @@ extension Tutorial {
             "url": url,
             "difficulty": difficulty,
             "duration": duration,
-        ]
-
-        if medium == "video" {
-            serialized["playable"] = true
-        }
-
-        return serialized
+            "playable": medium == "video" ? true : false
+        ])
     }
 }
 

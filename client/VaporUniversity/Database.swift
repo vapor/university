@@ -6,7 +6,7 @@ import Fluent
     VaporUniversity API.
 */
 public final class VaporUniversityDatabase: Database {
-    public enum Error: ErrorProtocol {
+    public enum Error: Swift.Error {
         case noConfiguredURL
     }
 
@@ -16,6 +16,6 @@ public final class VaporUniversityDatabase: Database {
         }
 
         let driver = RESTDriver(url: url, drop: drop)
-        super.init(driver: driver)
+        super.init(driver)
     }
 }

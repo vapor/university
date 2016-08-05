@@ -1,4 +1,5 @@
 import Vapor
+import HTTP
 
 class NotFound: Middleware {
     func respond(to request: Request, chainingTo next: Responder) throws -> Response {

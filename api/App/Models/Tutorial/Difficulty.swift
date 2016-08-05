@@ -2,11 +2,11 @@ import Vapor
 import Fluent
 
 extension Tutorial {
-    enum Difficulty {
+    enum Difficulty: NodeConvertible {
         case easy, intermediate, advanced
 
-        init(_ value: Value) throws {
-            guard let difficulty = value.string else {
+        init(node: Node, in context: Context) throws {
+            guard let difficulty = node.string else {
                 throw Error.databaseParseError("Difficulty was not a string.")
             }
 
@@ -22,7 +22,7 @@ extension Tutorial {
             }
         }
 
-        func value() throws -> Value {
+        func makeNode() throws -> Node {
             switch self {
             case .easy:
                 return "easy"

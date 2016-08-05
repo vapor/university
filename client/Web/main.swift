@@ -8,7 +8,7 @@ let mustache = VaporMustache.Provider(withIncludes: [
     "footer": "Includes/footer.mustache",
 ])
 
-let drop = Droplet(providers: [mustache])
+let drop = Droplet(initializedProviders: [mustache])
 
 // MARK: Create DB
 
@@ -20,12 +20,15 @@ Tutorial.database = database
 drop.get("/") { request in
     let medium = request.data["medium"].string ?? "video"
 
-    let tutorials: [[String: String]] = try Tutorial.filter("medium", medium).all().map { tutorial in
+    let tutorials: [[String: String]] = try Tutorial.query().filter("medium", medium).all().map { tutorial in
         var serialized: [String: String] = [:]
 
-        for (key, val) in tutorial.serialize() {
-            serialized[key] = val.string ?? ""
+        if let obj = try tutorial.makeNode().object {
+            for (key, val) in obj {
+                serialized[key] = val.string ?? ""
+            }
         }
+
 
         return serialized
     }

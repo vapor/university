@@ -1,8 +1,9 @@
 import Vapor
 import Fluent
+import HTTP
 
 extension Tutorial {
-    enum Medium {
+    enum Medium: NodeConvertible {
         case video, article
 
         init(_ string: String) throws {
@@ -16,15 +17,15 @@ extension Tutorial {
             }
         }
 
-        init(_ value: Value) throws {
-            guard let string = value.string else {
+        init(node: Node, in context: Context) throws {
+            guard let string = node.string else {
                 throw Error.databaseParseError("Medium was not a string.")
             }
 
             self = try .init(string)
         }
 
-        func value() throws -> Value {
+        func makeNode() throws -> Node {
             switch self {
             case .article:
                 return "article"
@@ -34,7 +35,7 @@ extension Tutorial {
         }
 
         class Validator: ValidationSuite {
-            enum Error: ErrorProtocol {
+            enum Error: Swift.Error {
                 case invalid
             }
 

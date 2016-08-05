@@ -1,8 +1,9 @@
 import Vapor
+import HTTP
 import Fluent
 
-final class Tutorial: Vapor.Model {
-    var id: Value?
+final class Tutorial: Model {
+    var id: Node?
     var name: String
     var author: String
     var medium: Medium
@@ -12,54 +13,54 @@ final class Tutorial: Vapor.Model {
     var duration: Int
     var difficulty: Difficulty
 
-    init(serialized: [String: Value]) { // FIXME: init(Value)
-        id = serialized["id"]
-        name = serialized["name"].string ?? ""
-        author = serialized["author"].string ?? ""
-        medium = try! Medium(serialized["medium"]!)
-        image = serialized["image"].string ?? "sample-tile.png"
-        url = serialized["url"].string ?? ""
-        description = serialized["description"].string ?? ""
-        duration = serialized["duration"].int ?? 0
-        difficulty = try! Difficulty(serialized["difficulty"]!)
+    init(node: Node, in context: Context) throws {
+        id = try node.extract("id")
+        name = try node.extract("name")
+        author = try node.extract("author")
+        medium = try Medium(node: try node.extract("medium"))
+        image = node["image"].string ?? "sample-tile.png"
+        url = try node.extract("url")
+        description = try node.extract("description")
+        duration = try node.extract("duration")
+        difficulty = try Difficulty(node: try node.extract("difficulty"))
     }
 }
 
 // MARK: Fluent Serialization
 
 extension Tutorial {
-    func serialize() -> [String: Value?] { // FIXME: ValueRepresentable
-        return [
+    func makeNode() throws -> Node {
+        return try Node(node: [
             "id": id,
             "name": name,
             "author": author,
-            "medium": try! medium.value(), // FIXME: not throwing
+            "medium": medium,
             "image": image,
             "url": url,
             "description": description,
             "duration": duration,
-            "difficulty": try! difficulty.value()
-        ]
+            "difficulty": difficulty
+        ])
     }
 }
 
 // MARK: Preparations
 
 extension Tutorial {
-    static func prepare(database: Database) throws {
+    static func prepare(_ database: Database) throws {
         try database.create("tutorials") { tutorials in
             tutorials.id()
             tutorials.string("name")
-            tutorials.string("medium") // FIXME: enum support
+            tutorials.string("medium")
             tutorials.string("image")
             tutorials.string("url")
             tutorials.string("description")
-            tutorials.int("duration") // FIXME: TEXT support
-            tutorials.string("difficulty") // FIXME: enum support
+            tutorials.int("duration")
+            tutorials.string("difficulty")
         }
     }
 
-    static func revert(database: Database) throws {
+    static func revert(_ database: Database) throws {
         try database.delete("tutorials")
     }
 }
@@ -67,7 +68,7 @@ extension Tutorial {
 // MARK: Temporary error
 
 extension Tutorial {
-    enum Error: ErrorProtocol {
+    enum Error: Swift.Error {
         case databaseParseError(String)
     }
 }
