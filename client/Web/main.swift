@@ -1,6 +1,7 @@
 import Vapor
 import VaporMustache
 import VaporUniversity
+import HTTP
 
 // MARK: Create droplet
 let mustache = VaporMustache.Provider(withIncludes: [
@@ -49,5 +50,32 @@ drop.get("/") { request in
         ]
     ])
 }
+
+final class RequestFailedMiddleware: Middleware {
+    let drop: Droplet
+    init(drop: Droplet) {
+        self.drop = drop
+    }
+
+    func respond(to request: Request, chainingTo next: Responder) throws -> Response {
+        do {
+            return try next.respond(to: request)
+        } catch RESTDriver.Error.requestFailed(let error) {
+            let message: String
+
+            if drop.config.environment == .production {
+                message = "Something went wrong, please try again later."
+            } else {
+                message = "Request Failed: \(error)"
+            }
+
+            return try drop.view("error.mustache", context: [
+                "message": message
+            ]).makeResponse()
+        }
+    }
+}
+
+drop.middleware.append(RequestFailedMiddleware(drop: drop))
 
 drop.serve()

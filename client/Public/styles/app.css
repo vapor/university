@@ -2,6 +2,14 @@ body {
   font-family: -apple-system, sans-serif;
   color: #333; }
 
+.tutorials p.error {
+  background: rgba(255, 246, 185, 0.2);
+  border: 2px solid #FFF6B9;
+  padding: 12px;
+  border-radius: 5px;
+  width: 420px;
+  margin: 22px auto;
+  text-align: center; }
 .tutorials .header {
   margin-top: 48px;
   text-align: center; }

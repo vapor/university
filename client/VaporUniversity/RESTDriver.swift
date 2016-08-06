@@ -11,6 +11,8 @@ public class RESTDriver: Driver {
 
     public enum Error: Swift.Error {
         case unsupported
+        case requestFailed(Swift.Error)
+        case notJSON
     }
 
     public init(url: String, drop: Droplet) {
@@ -56,13 +58,17 @@ public class RESTDriver: Driver {
 
     private func get(_ address: String, query: [String: CustomStringConvertible]) throws -> Node {
         drop.log.info(address)
-        let response = try drop.client.get(address, query: query)
+        do {
+            let response = try drop.client.get(address, query: query)
 
-        if let json = response.json {
-            return json.makeNode()
-        } else {
-            drop.log.warning("Response was not JSON.")
-            return []
+            if let json = response.json {
+                return json.makeNode()
+            } else {
+                drop.log.warning("Response was not JSON.")
+                throw Error.requestFailed(Error.notJSON)
+            }
+        } catch {
+            throw Error.requestFailed(error)
         }
     }
 
