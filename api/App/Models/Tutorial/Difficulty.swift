@@ -22,7 +22,7 @@ extension Tutorial {
             }
         }
 
-        func makeNode() throws -> Node {
+        func makeNode(context: Context) throws -> Node {
             switch self {
             case .easy:
                 return "easy"

@@ -1,0 +1,33 @@
+#extend("layout")
+
+#export("main") {
+	<div class="tutorials">
+		<div class="header">
+			<img src="/images/vapor-university-logo.png" alt="Vapor University" class="logo">
+			<h1><strong>vapor</strong>.university</h1>
+
+			<ul class="toggle">
+				#loop(mediums, "medium") {
+					<li>
+						<a class="#(medium.class)" href="?medium=#(medium.url)">#(medium.text)</a>
+					</li>
+				}
+			</ul>
+		</div>
+
+		<ul class="list">
+			#loop(tutorials, "tutorial") {
+				<li>
+					<a target="_blank" class="tutorial #if(tutorial.playable) { playable }" href="#(tutorial.url)">
+						<img src="/images/previews/#(tutorial.image)" alt="" class="preview">
+						<div class="content">
+							<h2>#(tutorial.name)</h2>
+							<p>#(tutorial.description)</p>
+							<p>#(tutorial.duration)m • #(tutorial.difficulty) • #(tutorial.author)</p>
+						</div>
+					</a>
+				</li>
+			}
+		</ul>
+	</div>
+}

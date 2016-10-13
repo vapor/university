@@ -11,6 +11,7 @@ public final class Tutorial: Model {
     public var url: String
     public var difficulty: String
     public var duration: Int
+    public var exists: Bool = false
 
     public init(node: Node, in context: Context) throws {
         id = try node.extract("id")
@@ -36,7 +37,7 @@ public final class Tutorial: Model {
 //MARK: Fluent serializations
 
 extension Tutorial {
-    public func makeNode() throws -> Node {
+    public func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "name": name,

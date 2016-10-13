@@ -7,8 +7,7 @@ let package = Package(
         Target(name: "Web", dependencies: ["VaporUniversity"])
     ],
     dependencies: [
-        .Package(url: "https://github.com/vapor/vapor.git", majorVersion: 0, minor: 16),
-        .Package(url: "https://github.com/vapor/vapor-mustache.git", majorVersion: 0, minor: 11),
+        .Package(url: "https://github.com/vapor/vapor.git", majorVersion: 1)
     ],
     exclude: [
         "Config",

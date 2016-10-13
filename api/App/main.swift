@@ -1,12 +1,16 @@
 import Vapor
 import VaporMySQL
 
-let drop = Droplet(preparations: [Tutorial.self], providers: [VaporMySQL.Provider.self])
+let drop = Droplet()
+
+try drop.addProvider(VaporMySQL.Provider.self)
+
+drop.addConfigurable(middleware: NotFound(), name: "not-found")
+drop.addConfigurable(middleware: Tutorial.Medium.Validator.Middleware(), name: "medium-validator")
+
+drop.preparations.append(Tutorial.self)
 
 let tutorials = Tutorials()
 drop.resource("tutorials", tutorials)
 
-drop.middleware.append(NotFound())
-drop.middleware.append(Tutorial.Medium.Validator.Middleware())
-
-drop.serve()
+drop.run()
