@@ -1,41 +1,24 @@
 import Vapor
-import VaporMustache
 import VaporUniversity
 import HTTP
 
 // MARK: Create droplet
-let mustache = VaporMustache.Provider(withIncludes: [
-    "header": "Includes/header.mustache",
-    "footer": "Includes/footer.mustache",
-])
-
-let drop = Droplet(initializedProviders: [mustache])
+let drop = Droplet()
 
 // MARK: Create DB
 
 let database = try VaporUniversityDatabase(drop: drop)
-Tutorial.database = database
+Tutorial.database = database.database
 
 // MARK: Routes
 
 drop.get("/") { request in
-    let medium = request.data["medium"].string ?? "video"
+    let medium = request.data["medium"]?.string ?? "video"
 
-    let tutorials: [[String: String]] = try Tutorial.query().filter("medium", medium).all().map { tutorial in
-        var serialized: [String: String] = [:]
-
-        if let obj = try tutorial.makeNode().object {
-            for (key, val) in obj {
-                serialized[key] = val.string ?? ""
-            }
-        }
-
-
-        return serialized
-    }
-
-    return try drop.view("Tutorials/index.mustache", context: [
-        "tutorials": tutorials,
+    let tutorials = try Tutorial.query().filter("medium", medium).all().flatMap({ try $0.makeNode() })
+    
+    return try drop.view.make("Tutorials/index", [
+        "tutorials": Node.array(tutorials),
         "mediums": [
             [
                 "url": "video",
@@ -63,13 +46,13 @@ final class RequestFailedMiddleware: Middleware {
         } catch RESTDriver.Error.requestFailed(let error) {
             let message: String
 
-            if drop.config.environment == .production {
+            if drop.environment == .production {
                 message = "Something went wrong, please try again later."
             } else {
                 message = "Request Failed: \(error)"
             }
 
-            return try drop.view("error.mustache", context: [
+            return try drop.view.make("error", [
                 "message": message
             ]).makeResponse()
         }
@@ -78,4 +61,4 @@ final class RequestFailedMiddleware: Middleware {
 
 drop.middleware.append(RequestFailedMiddleware(drop: drop))
 
-drop.serve()
+drop.run()

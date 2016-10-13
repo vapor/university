@@ -1,0 +1,14 @@
+{
+    "middleware": {
+        "server": [
+            "file",
+            "abort",
+            "validation",
+            "type-safe",
+            "date",
+            "sessions",
+            "not-found",
+            "medium-validator"
+        ]
+    }
+}

@@ -25,7 +25,7 @@ extension Tutorial {
             self = try .init(string)
         }
 
-        func makeNode() throws -> Node {
+        func makeNode(context: Context) throws -> Node {
             switch self {
             case .article:
                 return "article"
@@ -47,7 +47,7 @@ extension Tutorial {
                 }
             }
 
-            class Middleware: Vapor.Middleware {
+            class Middleware: HTTP.Middleware {
                 func respond(to request: Request, chainingTo next: Responder) throws -> Response {
                     do {
                         return try next.respond(to: request)

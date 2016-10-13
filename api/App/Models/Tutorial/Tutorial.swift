@@ -12,13 +12,14 @@ final class Tutorial: Model {
     var description: String
     var duration: Int
     var difficulty: Difficulty
+    var exists: Bool = false
 
     init(node: Node, in context: Context) throws {
         id = try node.extract("id")
         name = try node.extract("name")
         author = try node.extract("author")
         medium = try Medium(node: try node.extract("medium"))
-        image = node["image"].string ?? "sample-tile.png"
+        image = node["image"]?.string ?? "sample-tile.png"
         url = try node.extract("url")
         description = try node.extract("description")
         duration = try node.extract("duration")
@@ -29,7 +30,7 @@ final class Tutorial: Model {
 // MARK: Fluent Serialization
 
 extension Tutorial {
-    func makeNode() throws -> Node {
+    func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "name": name,

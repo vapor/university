@@ -8,7 +8,7 @@ final class Tutorials: ResourceRepresentable {
 
         let query = try Tutorial.query()
 
-        if let medium = request.data["medium"].string {
+        if let medium = request.data["medium"]?.string {
             _ = try medium.tested(by: Tutorial.Medium.Validator.self) // FIXME: medium.test()
             try query.filter("medium", medium)
         }
@@ -22,7 +22,7 @@ final class Tutorials: ResourceRepresentable {
         }
 
         for item in tutorials {
-            json.append(item.makeJSON())
+            json.append(try item.makeJSON())
         }
 
         return JSON(json)
