@@ -1,8 +1,7 @@
 import Vapor
-import Fluent
+import FluentProvider
 
-public final class Tutorial: Model {
-    public var id: Node?
+public final class Tutorial: Model, NodeConvertible {
     public var name: String
     public var author: String
     public var medium: String
@@ -11,18 +10,20 @@ public final class Tutorial: Model {
     public var url: String
     public var difficulty: String
     public var duration: Int
-    public var exists: Bool = false
+    public var version: String
+    public let storage = Storage()
 
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract("id")
-        name = try node.extract("name")
-        author = try node.extract("author")
-        medium = try node.extract("medium")
-        description = try node.extract("description")
-        image = try node.extract("image")
-        url = try node.extract("url")
-        difficulty = (try node.extract("difficulty") as String).uppercaseFirst()
-        duration = try node.extract("duration")
+    public init(node: Node) throws {
+        name = try node.get("name")
+        author = try node.get("author")
+        medium = try node.get("medium")
+        description = try node.get("description")
+        image = try node.get("image")
+        url = try node.get("url")
+        difficulty = (try node.get("difficulty") as String).uppercaseFirst()
+        duration = try node.get("duration")
+        version = try node.get("version")
+        id = try node.get("id")
     }
 
     public static func prepare(_ database: Database) throws {
@@ -34,12 +35,22 @@ public final class Tutorial: Model {
     }
 }
 
+extension Tutorial {
+    public convenience init(row: Row) throws {
+        try self.init(node: row.makeNode(in: Row.defaultContext))
+    }
+
+    public func makeRow() throws -> Row {
+        return try makeNode(in: Row.defaultContext).converted()
+    }
+}
+
 //MARK: Fluent serializations
 
 extension Tutorial {
-    public func makeNode(context: Context) throws -> Node {
+    public func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
-            "id": id,
+            "id": id ?? nil,
             "name": name,
             "author": author,
             "description": description,
@@ -47,7 +58,8 @@ extension Tutorial {
             "url": url,
             "difficulty": difficulty,
             "duration": duration,
-            "playable": medium == "video" ? true : false
+            "playable": medium == "video" ? true : false,
+            "version": version
         ])
     }
 }

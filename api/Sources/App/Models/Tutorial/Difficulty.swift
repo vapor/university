@@ -5,7 +5,7 @@ extension Tutorial {
     enum Difficulty: NodeConvertible {
         case easy, intermediate, advanced
 
-        init(node: Node, in context: Context) throws {
+        init(node: Node) throws {
             guard let difficulty = node.string else {
                 throw Error.databaseParseError("Difficulty was not a string.")
             }
@@ -18,11 +18,11 @@ extension Tutorial {
             case "advanced":
                 self = .advanced
             default:
-                throw Error.databaseParseError("Medium was an invalid type.")
+                throw Error.databaseParseError("Difficulty was an invalid type: \(difficulty).")
             }
         }
 
-        func makeNode(context: Context) throws -> Node {
+        func makeNode(in context: Context?) throws -> Node {
             switch self {
             case .easy:
                 return "easy"

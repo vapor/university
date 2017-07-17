@@ -6,10 +6,10 @@ final class Tutorials: ResourceRepresentable {
     func index(request: Request) throws -> ResponseRepresentable {
         var json: [JSON] = []
 
-        let query = try Tutorial.query()
+        let query = try Tutorial.makeQuery()
 
         if let medium = request.data["medium"]?.string {
-            _ = try medium.tested(by: Tutorial.Medium.Validator.self) // FIXME: medium.test()
+            _ = try medium.tested(by: Tutorial.Medium.Validator()) // FIXME: medium.test()
             try query.filter("medium", medium)
         }
 

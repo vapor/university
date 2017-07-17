@@ -1,6 +1,24 @@
 body {
   font-family: -apple-system, sans-serif;
-  color: #333; }
+  color: #333;
+  margin: 0;
+  padding: 0; }
+
+div.banner {
+  background: #1BC98E;
+  color: white;
+  padding: 8px 20px;
+  text-align: center; }
+  div.banner a {
+    margin-left: 5px;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #159c6e;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    color: white;
+    text-decoration: none; }
 
 .tutorials p.error {
   background: rgba(255, 246, 185, 0.2);
@@ -115,6 +133,16 @@ body {
       margin-top: 6px;
       line-height: 24px;
       color: #777; }
+    .tutorials .list .tutorial .version {
+      position: absolute;
+      top: 5px;
+      right: 0; }
+      .tutorials .list .tutorial .version img {
+        height: 24px;
+        float: left; }
+      .tutorials .list .tutorial .version span {
+        line-height: 24px;
+        color: #777; }
 
 footer p {
   text-align: center;

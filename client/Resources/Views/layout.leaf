@@ -13,10 +13,14 @@
 	</head>
 	</body>
 
+	<div class="banner">
+		Made a Vapor tutorial? <a href="mailto:tutorials@vapor.codes?subject=Vapor%20University%20Submission&body=Link%3A%0ATitle%3A%0ADescription%3A%0AImage%3A%0ADuration%3A%0ADifficulty%3A%0A">Submit it!</a>
+	</div>
+
 	#import("main")
 
 	<footer>
-		<p>&copy; 2016 Qutheory. Proudly served by Vapor v1.1.0.</p>
+		<p>&copy; 2017 Qutheory, LLC. Proudly served by Vapor 2.</p>
 	</footer>
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

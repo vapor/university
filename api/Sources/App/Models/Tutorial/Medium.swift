@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 import HTTP
+import ValidationProvider
 
 extension Tutorial {
     enum Medium: NodeConvertible {
@@ -13,11 +14,11 @@ extension Tutorial {
             case "article":
                 self = .article
             default:
-                throw Error.databaseParseError("Medium was an invalid type.")
+                throw Error.databaseParseError("Medium was an invalid type: \(string).")
             }
         }
 
-        init(node: Node, in context: Context) throws {
+        init(node: Node) throws {
             guard let string = node.string else {
                 throw Error.databaseParseError("Medium was not a string.")
             }
@@ -25,7 +26,7 @@ extension Tutorial {
             self = try .init(string)
         }
 
-        func makeNode(context: Context) throws -> Node {
+        func makeNode(in context: Context?) throws -> Node {
             switch self {
             case .article:
                 return "article"
@@ -34,12 +35,12 @@ extension Tutorial {
             }
         }
 
-        class Validator: ValidationSuite {
+        class Validator: Validation.Validator {
             enum Error: Swift.Error {
                 case invalid
             }
 
-            static func validate(input: String) throws {
+            func validate(_ input: String) throws {
                 do {
                     _ = try Medium(input)
                 } catch {
@@ -52,7 +53,7 @@ extension Tutorial {
                     do {
                         return try next.respond(to: request)
                     } catch Error.invalid {
-                        throw Abort.custom(status: .badRequest, message: "Invalid medium. Must be either video or article.")
+                        throw Abort(.badRequest, reason: "Invalid medium. Must be either video or article.")
                     }
                 }
             }

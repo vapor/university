@@ -25,6 +25,14 @@
 							<p>#(tutorial.description)</p>
 							<p>#(tutorial.duration)m • #(tutorial.difficulty) • #(tutorial.author)</p>
 						</div>
+                        <div class="version">
+                            #equal(tutorial.version, "1.0") {
+                                <img src="/images/vapor-1.svg" style="margin-right: 3px;">
+                            } ##else() {
+                                <img src="/images/vapor-2.svg">
+                            }
+                            <span>#(tutorial.version)</span>
+                        </div>
 					</a>
 				</li>
 			}
